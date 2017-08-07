@@ -15,8 +15,10 @@ import io.reactivex.schedulers.Schedulers
 
 class MtgCardImageView : ImageView {
 
-    val minWidth: Int = 669
-    val minHeight: Int = 930
+    var minWidth: Int = 669
+    var minHeight: Int = 930
+    var cardRadius: Float = 7f
+    var cardBackRadius: Float = 26f
 
     lateinit var target: Target
 
@@ -37,7 +39,13 @@ class MtgCardImageView : ImageView {
 
         val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.MtgCardImageView, 0, 0)
 
-        val multiverseId: Int = attributes.getInteger(R.styleable.MtgCardImageView_card_multiverseid, -1)
+        val multiverseId: Int = attributes.getInteger(R.styleable.MtgCardImageView_card_multiverseId, -1)
+        val scaleFactor = attributes.getFloat(R.styleable.MtgCardImageView_card_scaleFactor, 1f)
+
+        minWidth = (minWidth.toFloat() * scaleFactor).toInt()
+        minHeight = (minHeight.toFloat() * scaleFactor).toInt()
+        cardRadius = (cardRadius * scaleFactor)
+        cardBackRadius = (cardBackRadius * scaleFactor)
 
         if (multiverseId > 0) {
             setMtgCardBackToImageView()
@@ -47,7 +55,7 @@ class MtgCardImageView : ImageView {
                     .subscribe({ card ->
                         Picasso.with(context)
                                 .load(card.imageUrl)
-                                .transform(RoundedCornersTransformation(10f))
+                                .transform(RoundedCornersTransformation(cardRadius))
                                 .into(target)
                     }, {
                         setMtgCardBackToImageView()
@@ -77,6 +85,6 @@ class MtgCardImageView : ImageView {
     private fun setMtgCardBackToImageView() {
         val source: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_mtg_card_back)
         val image: Bitmap = Bitmap.createScaledBitmap(source, minWidth, minHeight, false)
-        setImageBitmap(RoundedCornersTransformation.applyRoundedCornersTransformationToBitmap(image, 25f))
+        setImageBitmap(RoundedCornersTransformation.applyRoundedCornersTransformationToBitmap(image, cardBackRadius))
     }
 }
