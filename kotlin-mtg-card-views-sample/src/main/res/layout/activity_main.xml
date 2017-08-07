@@ -11,8 +11,6 @@
     <co.develoop.kotlinmtgcardviews.MtgCardImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        app:card_multiverseId="226749"
-        app:card_scaleFactor="1.5" />
+        app:card_multiverseId="226749" />
 
 </LinearLayout>
