@@ -1,5 +1,6 @@
 package co.develoop.kotlinmtgcardviews
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
@@ -14,25 +15,20 @@ import android.widget.ImageView
 import co.develoop.kotlinmtgcardviews.transformation.RoundedCornersTransformation
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
-import io.magicthegathering.kotlinsdk.api.MtgCardApiClient
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
 class MtgCardImageView : ImageView {
 
-    var minWidth: Int = 669
-    var minHeight: Int = 930
-    var cardRadius: Float = 10f
-    var cardBackRadius: Float = 26f
-    var zoomFactor: Float = 1.5f
+    private lateinit var target: Target
 
-    var xDest: Float? = 0f
-    var yDest: Float? = 0f
-
-    lateinit var target: Target
-
-    var isZoomed: Boolean = false
+    private var minWidth: Int = 669
+    private var minHeight: Int = 930
+    private var cardRadius: Float = 10f
+    private var cardBackRadius: Float = 26f
+    private var zoomFactor: Float = 1.5f
+    private var xDest: Float? = 0f
+    private var yDest: Float? = 0f
+    private var isZoomed: Boolean = false
 
     constructor(context: Context) : super(context) {
         init(context, null)
@@ -48,16 +44,23 @@ class MtgCardImageView : ImageView {
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event!!.action == MotionEvent.ACTION_UP) {
-            if (isZoomed) {
+            isZoomed = if (isZoomed) {
                 zoomOut(this)
-                isZoomed = false
             } else {
                 zoomIn(this)
-                isZoomed = true
             }
         }
 
         return true
+    }
+
+    fun loadCard(multiverseId: Int?) {
+        if (multiverseId != null && multiverseId > 0) {
+            Picasso.with(context)
+                    .load(resources.getString(R.string.gatherer_wizards_card_url).replace("[multiverseId]", "$multiverseId"))
+                    .transform(RoundedCornersTransformation(cardRadius))
+                    .into(target)
+        }
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
@@ -74,22 +77,8 @@ class MtgCardImageView : ImageView {
         cardRadius = (cardRadius * scaleFactor)
         cardBackRadius = (cardBackRadius * scaleFactor)
 
-        if (multiverseId > 0) {
-            setMtgCardBackToImageView()
-            MtgCardApiClient.getCardObservable(multiverseId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ card ->
-                        Picasso.with(context)
-                                .load(card.imageUrl)
-                                .transform(RoundedCornersTransformation(cardRadius))
-                                .into(target)
-                    }, {
-                        setMtgCardBackToImageView()
-                    })
-        } else {
-            setMtgCardBackToImageView()
-        }
+        setMtgCardBackToImageView()
+        loadCard(multiverseId)
     }
 
     private fun initTarget() {
@@ -115,33 +104,45 @@ class MtgCardImageView : ImageView {
         setImageBitmap(RoundedCornersTransformation.applyRoundedCornersTransformationToBitmap(image, cardBackRadius))
     }
 
-    private fun zoomIn(view: View) {
-        val locationOnScreen: IntArray = IntArray(2)
+    private fun zoomIn(view: View): Boolean {
+        val locationOnScreen = IntArray(2)
         getLocationOnScreen(locationOnScreen)
 
         xDest = (resources.displayMetrics.widthPixels / 2 - view.measuredWidth / 2 - locationOnScreen[0]).toFloat()
         yDest = (resources.displayMetrics.heightPixels / 2 - view.measuredHeight / 2 - locationOnScreen[1]).toFloat()
 
-        val translateX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, xDest as Float)
-        val translateY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, yDest as Float)
         val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, zoomFactor)
         val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, zoomFactor)
+        val scaleAnimator: ValueAnimator = ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY)
+        scaleAnimator.duration = 200
 
-        val animator: ValueAnimator = ObjectAnimator.ofPropertyValuesHolder(view, translateX, translateY, scaleX, scaleY)
-        animator.duration = 200
-        animator.start()
+        val translateX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, xDest as Float)
+        val translateY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, yDest as Float)
+        val translateAnimator: ValueAnimator = ObjectAnimator.ofPropertyValuesHolder(view, translateX, translateY)
+        translateAnimator.duration = 200
 
-        requestFocusFromTouch()
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(scaleAnimator, translateAnimator)
+        animatorSet.start()
+
+        return true
     }
 
-    private fun zoomOut(view: View) {
-        val translateX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f)
-        val translateY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f)
+    private fun zoomOut(view: View): Boolean {
         val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f)
         val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f)
+        val scaleAnimator: ValueAnimator = ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY)
+        scaleAnimator.duration = 200
 
-        val animator: ValueAnimator = ObjectAnimator.ofPropertyValuesHolder(view, translateX, translateY, scaleX, scaleY)
-        animator.duration = 200
-        animator.start()
+        val translateX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0f)
+        val translateY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f)
+        val translateAnimator: ValueAnimator = ObjectAnimator.ofPropertyValuesHolder(view, translateX, translateY)
+        translateAnimator.duration = 200
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(scaleAnimator, translateAnimator)
+        animatorSet.start()
+
+        return false
     }
 }

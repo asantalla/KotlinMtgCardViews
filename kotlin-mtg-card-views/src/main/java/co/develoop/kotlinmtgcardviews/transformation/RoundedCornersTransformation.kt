@@ -11,9 +11,7 @@ class RoundedCornersTransformation(val radius: Float) : Transformation {
         return output
     }
 
-    override fun key(): String {
-        return "rounded_corners"
-    }
+    override fun key(): String = "rounded_corners"
 
     companion object {
         fun applyRoundedCornersTransformationToBitmap(image: Bitmap, radius: Float): Bitmap {

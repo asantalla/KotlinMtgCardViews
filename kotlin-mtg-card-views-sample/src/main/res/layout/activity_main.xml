@@ -1,74 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     android:clipChildren="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false">
+        android:layout_height="180dp"
+        android:layout_toEndOf="@+id/mtgCardImageView"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <co.develoop.kotlinmtgcardviews.MtgCardImageView
-            android:layout_width="120dp"
-            android:layout_height="160dp"
-            android:clipToPadding="false"
-            android:elevation="1dp"
-            app:card_multiverseId="226749"
-            app:card_zoom="3" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="0dp"
-            android:text="Delver of Secrets" />
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/mtgCardNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/mtgCardManaCostLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mtgCardSetTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rarity"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mtgCardRarityTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mtgCardTypeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false">
-
-        <co.develoop.kotlinmtgcardviews.MtgCardImageView
-            android:layout_width="120dp"
-            android:layout_height="160dp"
-            android:clipToPadding="false"
-            android:elevation="1dp"
-            app:card_multiverseId="226749"
-            app:card_zoom="3" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mtgCardArtistTextView"
+        android:layout_marginTop="20dp">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/mtgCardTextTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="0dp"
-            android:text="Delver of Secrets" />
+            android:layout_marginStart="5dp"
+            android:textSize="18sp"
+            android:textStyle="italic" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/mtgCardArtistTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clipChildren="false">
+        android:layout_below="@+id/mtgCardImageView"
+        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:drawableStart="@drawable/ic_brush_black_24dp"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:textStyle="italic" />
 
-        <co.develoop.kotlinmtgcardviews.MtgCardImageView
-            android:layout_width="120dp"
-            android:layout_height="160dp"
-            android:clipToPadding="false"
-            android:elevation="1dp"
-            app:card_multiverseId="226749"
-            app:card_zoom="3" />
+    <co.develoop.kotlinmtgcardviews.MtgCardImageView
+        android:id="@+id/mtgCardImageView"
+        android:layout_width="140dp"
+        android:layout_height="180dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:clipToPadding="false"
+        app:card_zoom="2.5" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"
-            android:text="Delver of Secrets" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

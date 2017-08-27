@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">kotlin-mtg-card-views</string>
+    <string name="gatherer_wizards_card_url">http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=[multiverseId]&amp;type=card</string>
 </resources>
