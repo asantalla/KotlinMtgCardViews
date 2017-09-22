@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <declare-styleable name="MtgCardImageView">
+        <attr name="card_multiverseId" format="integer" />
+        <attr name="card_scale" format="float" />
+        <attr name="card_zoom" format="float" />
+    </declare-styleable>
+</resources>
