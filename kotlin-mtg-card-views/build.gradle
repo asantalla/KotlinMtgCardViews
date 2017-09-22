@@ -1,6 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jfrog.bintray'
+
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
+def version_code = 1
+def version_name = "1.0.0"
 
 android {
     compileSdkVersion 25
@@ -9,8 +17,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode version_code
+        versionName version_name
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -26,4 +34,33 @@ android {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.squareup.picasso:picasso:2.5.2'
+}
+
+ext {
+    bintrayRepo = 'develoop'
+    bintrayName = 'kotlin-mtg-card-views'
+
+    publishedGroupId = 'co.develoop.kotlinmtgcardviews'
+    libraryName = 'KotlinMtgCardViews'
+    artifact = 'kotlin-mtg-card-views'
+
+    libraryDescription = 'Android library to use views to show Magic: The Gathering cards'
+
+    siteUrl = 'https://github.com/asantalla/KotlinMtgCardViews'
+    gitUrl = 'https://github.com/asantalla/KotlinMtgCardViews.git'
+
+    libraryVersion = version_name
+
+    developerId = 'asantalla'
+    developerName = 'Adrián Santalla'
+    developerEmail = 'adrian.santalla@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+if (project.rootProject.file('local.properties').exists()) {
+    apply from: 'install.gradle'
+    apply from: 'bintray.gradle'
 }
