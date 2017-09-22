@@ -153,6 +153,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:clipToPadding="false"
-        app:card_zoom="2.5" />
+        app:card_zoom="2" />
 
 </RelativeLayout>

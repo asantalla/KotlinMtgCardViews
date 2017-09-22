@@ -16,7 +16,6 @@ import co.develoop.kotlinmtgcardviews.transformation.RoundedCornersTransformatio
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 
-
 class MtgCardImageView : ImageView {
 
     private lateinit var target: Target

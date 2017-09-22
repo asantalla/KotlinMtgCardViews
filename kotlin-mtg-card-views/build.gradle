@@ -7,7 +7,7 @@ android {
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -24,9 +24,6 @@ android {
 }
 
 dependencies {
-    // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

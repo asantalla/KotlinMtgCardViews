@@ -33,6 +33,8 @@ dependencies {
     compile "org.jetbrains.anko:anko-sdk15:$anko_version"
     compile "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
 
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
     compile 'io.magicthegathering:kotlinsdk:1.0.1'
 
     compile project(path: ':kotlin-mtg-card-views')
