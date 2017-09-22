@@ -35,7 +35,7 @@ Usage
 
 We can configure our custom view with the following attributes:
 
-* **card_multiverseId**: the *Magic: The Gathering* card multiverse id.
+* **app:card_multiverseId**: the *Magic: The Gathering* card multiverse id.
 * **app:card_zoom**: the zoom value to be applied when the user taps on the card view. Default: *1.5*.
 * **app:card_scale**: the scale value to be applied to the width, height and corner radius on the card view. Default: *1*.
 
