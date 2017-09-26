@@ -67,6 +67,10 @@ class MtgCardImageView : ImageView {
         }
     }
 
+    fun reset() {
+        setMtgCardBackToImageView()
+    }
+
     private fun init(context: Context, attrs: AttributeSet?) {
         initTarget()
 
