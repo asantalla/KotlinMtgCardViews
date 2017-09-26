@@ -13,6 +13,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import co.develoop.kotlinmtgcardviews.transformation.RoundedCornersTransformation
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 
@@ -55,9 +57,12 @@ class MtgCardImageView : ImageView {
 
     fun loadCard(multiverseId: Int?) {
         if (multiverseId != null && multiverseId > 0) {
+
             Picasso.with(context)
                     .load(resources.getString(R.string.gatherer_wizards_card_url).replace("[multiverseId]", "$multiverseId"))
                     .transform(RoundedCornersTransformation(cardRadius))
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .into(target)
         }
     }
