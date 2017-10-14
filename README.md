@@ -27,7 +27,7 @@ repositories {
 Next, add the gradle compile dependency to the `build.gradle` file of your app module.
 
 ```
-compile 'co.develoop.kotlinmtgcardviews:kotlin-mtg-card-views:1.0.2'
+compile 'co.develoop.kotlinmtgcardviews:kotlin-mtg-card-views:1.0.3'
 ```
 
 Usage
